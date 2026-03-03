@@ -1,65 +1,132 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+
+import Loader from "@/components/Loader";
+import CustomCursor from "@/components/CustomCursor";
+import Navbar from "@/components/Navbar";
+import MobileNav from "@/components/MobileNav";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import Works from "@/components/Works";
+import Services from "@/components/Services";
+import Clients from "@/components/Clients";
+import Footer from "@/components/Footer";
 
 export default function Home() {
+  const mainRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Initialize Lenis for smooth scrolling
+    const lenis = new Lenis();
+
+    // Store Lenis instance on window for access from other components
+    (window as any).lenis = lenis;
+
+    // Keep ScrollTrigger in sync with Lenis
+    lenis.on("scroll", ScrollTrigger.update);
+
+    const tickerFn = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tickerFn);
+    gsap.ticker.lagSmoothing(0);
+
+    // Simulate loading time and then fade out loader
+    const loaderTimeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    // ------ Hero entrance animation ------
+    const mm = gsap.matchMedia();
+
+    mm.add("(max-width: 768px)", () => {
+      return () => gsap.killTweensOf(".page1 h1, .page1 h2");
+    });
+
+    mm.add("(min-width: 769px)", () => {
+      gsap.from(".page1 h1, .page1 h2", {
+        opacity: 0,
+        y: 100,
+        duration: 2.7,
+        delay: 0.5,
+        stagger: 0.2,
+        ease: "power4.out",
+      });
+    });
+
+    // ------ Timeline 1: h1/h2 slide apart + video expands on scroll ------
+    const tl1 = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".page1 h1",
+        start: "top 30%",
+        end: "top 0%",
+        scrub: 3,
+      },
+    });
+
+    tl1.to(".page1 h1", { x: -100 }, "one");
+    tl1.to(".page1 h2", { x: 100 }, "one");
+    tl1.to(".page1 video", { width: "100%" }, "one");
+
+    // ------ Timeline 2: background transitions to white ------
+    const tl2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".page1 h1",
+        start: "top -100%",
+        end: "top -120%",
+        scrub: 3,
+      },
+    });
+
+    tl2.to(".main", { backgroundColor: "#fff" });
+
+    // ------ Timeline 3: background transitions back to dark ------
+    const tl3 = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".page1 h1",
+        start: "top -380%",
+        end: "top -400%",
+        scrub: 3,
+      },
+    });
+
+    tl3.to(".main", { backgroundColor: "#0f0d0d" });
+
+    return () => {
+      clearTimeout(loaderTimeout);
+      lenis.destroy();
+      gsap.ticker.remove(tickerFn);
+      mm.revert();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      delete (window as any).lenis;
+    };
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <Loader isLoading={isLoading} />
+      <CustomCursor />
+      <Navbar />
+      <MobileNav />
+      <div className="main" ref={mainRef} role="main">
+        <div id="hero">
+          <Hero />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <About />
+        <div id="works">
+          <Works />
         </div>
-      </main>
-    </div>
+        <div id="services">
+          <Services />
+        </div>
+        <Clients />
+        <Footer />
+      </div>
+    </>
   );
 }
