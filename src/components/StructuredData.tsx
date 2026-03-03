@@ -5,7 +5,7 @@ export default function StructuredData() {
     name: "Duo Studio",
     description:
       "Award-winning creative agency specializing in brand strategy, visual identity, and digital experiences.",
-    url: "https://duo-studio.vercel.app",
+    url: "https://duo.aliabbaschadar.online",
     logo: "https://d33wubrfki0l68.cloudfront.net/439bf938233c24af021ffe6d206cd42f546e1143/ff4ed/assets/logo.svg",
     email: "hello@duo-studio.co",
     areaServed: "Worldwide",
@@ -25,7 +25,7 @@ export default function StructuredData() {
     "@type": "LocalBusiness",
     name: "Duo Studio",
     description: "Digitally crafted brand experiences",
-    url: "https://duo-studio.vercel.app",
+    url: "https://duo.aliabbaschadar.online",
     email: "hello@duo-studio.co",
     address: [
       { "@type": "PostalAddress", addressLocality: "Washington", addressRegion: "DC", addressCountry: "US" },

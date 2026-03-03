@@ -21,14 +21,14 @@ export const metadata: Metadata = {
     "brand experiences",
     "Washington DC",
   ],
-  metadataBase: new URL("https://duo-studio.vercel.app"),
+  metadataBase: new URL("https://duo.aliabbaschadar.online"),
   openGraph: {
     title: "Duo Studio | Digitally Crafted Brand Experiences",
     description:
       "Award-winning creative agency specializing in brand strategy, visual identity, and digital experiences.",
     siteName: "Duo Studio",
     type: "website",
-    url: "https://duo-studio.vercel.app",
+    url: "https://duo.aliabbaschadar.online",
   },
   twitter: {
     card: "summary_large_image",

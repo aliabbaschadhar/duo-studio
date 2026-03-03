@@ -412,6 +412,7 @@ body {
   transition: all ease-in-out 0.5s;
   position: absolute;
   transform: translateY(20%) rotate(5deg);
+  pointer-events: none;
 }
 
 .element img:nth-child(1) {

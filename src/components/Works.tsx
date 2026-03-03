@@ -6,7 +6,7 @@ export default function Works() {
       <div className="page3-part1">
         <div className="image-div">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/Content/DarkBlue Image.webp" alt="MGNY project" />
+          <img src="/Content/DarkBlue Image.webp" alt="MGNY project" loading="lazy" />
           <div className="image-corner">
             <p className="p1">MGNY</p>
             <p className="p2">Strategy, Website, Illustration</p>
@@ -14,7 +14,7 @@ export default function Works() {
         </div>
 
         <div className="video-div">
-          <video autoPlay loop muted playsInline>
+          <video autoPlay loop muted playsInline preload="none">
             <source src="/Content/Duo Video 2.mp4" type="video/mp4" />
           </video>
           <div className="video-corner">
@@ -31,6 +31,7 @@ export default function Works() {
             className="second-image"
             src="/Content/duo image.2webp"
             alt="Finturity project"
+            loading="lazy"
           />
           <div className="image-corner">
             <p className="p1">Finturity</p>
@@ -39,7 +40,7 @@ export default function Works() {
         </div>
 
         <div>
-          <video autoPlay loop muted playsInline>
+          <video autoPlay loop muted playsInline preload="none">
             <source src="/Content/Duo Video 2.mp4" type="video/mp4" />
           </video>
           <div className="video-corner">
